@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AG with Gen AI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            background-color: #f2f2f2;
+        }
+
+        .navbar-logo {
+            margin-right: 10px;
+            width: 60px;
+            height: 60px;
+        }
+
+        .navbar-title {
+            font-size: 40px;
+            font-weight: bold;
+            color: #333333;
+        }
+
+        .navbar-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-link {
+            margin-right: 10px;
+            text-decoration: none;
+            color: #333333;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .main-image {
+            margin: 10px;
+            max-width: 500px;
+            max-height: 500px;
+            justify-content: center;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .input-container {
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        #query-input {
+            flex: 1;
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #999999;
+            border-radius: 4px;
+            outline: none;
+        }
+
+        #generate-button {
+            background-color: #4CAF50;
+            color: #ffffff;
+            padding: 8px 16px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #generate-button:hover {
+            background-color: #45a049;
+        }
+
+        .image-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .image-list img {
+            margin: 10px;
+            max-width: 300px;
+            max-height: 300px;
+            border: 1px solid #999999;
+            border-radius: 4px;
+        }
+
+        .query-list {
+            text-align: center;
+            color: #333333;
+        }
+
+        .lucene-query {
+            text-align: center;
+            color: #333333;
+        }
+
+        .reformulated-query {
+            text-align: center;
+            color: #333333;
+        }
+
+        .query-journey {
+            text-align: center;
+            color: #333333;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .query-reformulation {
+            text-align: center;
+            color: #333333;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .query-expansion {
+            text-align: center;
+            color: #333333;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .result-images {
+            text-align: center;
+            color: #333333;
+            font-size: 25px;
+            font-weight: bold;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#generate-button").click(function() {
+                var query = $("#query-input").val();
+
+                // Make sure the query is not empty
+                if (query.trim() !== "") {
+                    // Clear the previous image links
+                    $(".image-list").empty();
+                    $(".query-reformulation").empty();
+                    $(".query-expansion").empty();
+                    $(".query-journey").empty();
+                    $(".reformulated-query").empty();
+                    $(".lucene-query").empty();
+                    $(".result-images").empty();
+
+                    $.ajax({
+                        url: "/predict",
+                        type: "POST",
+                        data: { query: query },
+                        success: function(response) {
+                            var imageUrls = response.imageUrls;
+                            var queries = response.queries;
+                            var reformulatedQuery = response.reformulatedQuery;
+                            var luceneQuery = response.luceneQuery
+
+                            var imageList = $(".image-list");
+                            var queryReformulation = $(".query-reformulation");
+                            var queryExpansion = $(".query-expansion");
+                            var queryList = $(".query-list");
+                            var queryJourney = $(".query-journey");
+                            var resultImages = $(".result-images");
+                            var reformulatedQuery_ = $(".reformulated-query");
+                            var luceneQuery_ = $(".lucene-query");
+
+                            for (var i = 0; i < imageUrls.length; i++) {
+                                var imageUrl = imageUrls[i];
+                                var imageElement = $("<img>").attr("src", imageUrl);
+                                imageList.append(imageElement);
+                            }
+
+                            for(var i = 0; i < queries.length; i++) {
+                                var q = queries[i];
+                                queryList.append(q);
+                            }
+
+                            queryJourney.append("Query's Journey:")
+                            resultImages.append("Results:")
+                            queryReformulation.append("Reformulation:")
+                            queryExpansion.append("Expansion:")
+                            reformulatedQuery_.append(reformulatedQuery)
+                            luceneQuery_.append(luceneQuery)
+                        },
+                        error: function(error) {
+                            console.log("Error: " + error);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="navbar">
+        <a href="https://www.flipkart.com/" target="_blank"><img class="navbar-logo" src="https://seeklogo.com/images/F/flipkart-logo-C9E637A758-seeklogo.com.png" alt="Company Logo"></a>
+        <div class="navbar-links">
+            <a class="navbar-link" href="/">SXP GEN AI HACKATHON</a>
+        </div>
+    </div>
+    <div class="container">
+        <h1>Solving Articulation Gap using Generative AI</h1>
+        <div class="input-container">
+            <input type="text" id="query-input" placeholder="Enter a query">
+            <button id="generate-button">Generate</button>
+        </div>
+
+        <br>
+        <div class="query-journey"></div>
+        <div class="query-reformulation"></div>
+        <div class="reformulated-query"></div>
+        <div class="query-expansion"></div>
+        <div class="lucene-query"></div>
+
+        <br>
+        <div class="result-images"></div>
+        <div class="image-list"></div>
+    </div>
+</body>
+</html>
