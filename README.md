@@ -15,6 +15,12 @@ Example -> newborn is replaced with infant to reformulate the query to "infant w
 Example -> infant (onesies OR sleepsuits OR sweaters OR jackets)
 * The expanded query is then used for retrieval from the search index, leading to higher and revelant recall.
 
+**To experience the web app:**
+* Clone this repository
+* Run the server: python app.py
+* Open localhost:5000 in your browser
+* Enter your query in the search bar
+
 ## These slides will help you understand the details!
 <img width="1342" alt="ag_gen_ai_1" src="https://github.com/chinmaysharmacs10/Articulation_Gap_Gen_AI/assets/35448762/ebe36145-d352-496b-9348-1be399718905">
 <img width="1340" alt="ag_gen_ai_2" src="https://github.com/chinmaysharmacs10/Articulation_Gap_Gen_AI/assets/35448762/cca7be1c-b833-4c3e-b418-6a5e0dd36d5e">
