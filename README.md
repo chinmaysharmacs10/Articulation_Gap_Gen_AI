@@ -7,9 +7,9 @@ These search queries are known as “Articulation Gap (AG)" queries.
 * In a lexial index based retrieval system, AG queries result in low or irrelevant recall. This leads to bad customer experience and has an adverse effect on the business.
 * We leverage the power of Large Language Model ([**ChatGPT-3.5 Turbo**](https://openai.com/blog/chatgpt)) to address the above problem.
 * Our approach can be broken down into three stages. Each stage uses a separate prompt for its specified task:
-  1. <ins>Attribute tagging</ins>: Identifying which token(s) map to which attribute, similar to Named Entity Recognition (NER). 
+  1. <ins>Attribute tagging</ins>: Identifying which token(s) map to which attribute, similar to Named Entity Recognition (NER). <br>
 Example -> input: "0 year clothes winter", output: {"product": "winter clothes", "age":"newborn", "gender":"any"}
-  2. <ins>Phrase replacement</ins>: Replacing AG affected attributes with catalog standard vocabulary. 
+  2. <ins>Phrase replacement</ins>: Replacing AG affected attributes with catalog standard vocabulary. <br>
 Example -> newborn is replaced with infant to reformulate the query to "infant winter clothes"
   3. <ins>Query expansion</ins>: Expanding the query by replacing the generic category in the query with specific verticals of that category. 
 Example -> infant (onesies OR sleepsuits OR sweaters OR jackets)
